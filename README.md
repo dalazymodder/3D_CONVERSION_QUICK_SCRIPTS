@@ -9,6 +9,7 @@ https://github.com/LiheYoung/Depth-Anything
 [INSTALLATION]
 Install python (I used version 3.10), and then 
 open command prompt and run commands "pip install opencv-python" and "pip install numpy" without quotes.
+On first run it will download the model for depth anything.
 
 From there to generate a depth map you can download depth anything from here.
 https://github.com/LiheYoung/Depth-Anything
@@ -20,6 +21,7 @@ frame_rate = 30.000
 
 input.avi should be your video file path
 and frame_rate should be its frame rate like 29.976 for a lot of movies, you can check it with vlc by open the file going to tools and then codec information.
+On first run it will download the model for depth anything.
 
 From there it will generate a 2D depth map video for you.
 
