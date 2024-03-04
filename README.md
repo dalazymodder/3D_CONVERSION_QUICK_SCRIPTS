@@ -1,31 +1,44 @@
 # 3D_CONVERSION_QUICK_SCRIPTS
 
-This Repo contains some quick scripts I use for 3d Conversions.
+This repository contains quick scripts used for 3D conversions. These scripts require depth maps to be generated. For generating depth maps, Depth-Anything by TikTok is recommended.
 
-They require depth maps to be generated for generating depth maps I recommend depth anything by tiktok.
+## Installation
 
-https://github.com/LiheYoung/Depth-Anything
+1. Install Python (Version 3.10 was used in this case).
+2. Open the command prompt and run the following commands:
+    ```bash
+    pip install opencv-python
+    pip install numpy
+    ```
+   On the first run, it will download the model for Depth-Anything.
 
-[INSTALLATION]
-Install python (I used version 3.10), and then 
-open command prompt and run commands "pip install opencv-python" and "pip install numpy" without quotes.
-On first run it will download the model for depth anything.
+## Usage
 
-From there to generate a depth map you can download depth anything from here.
-https://github.com/LiheYoung/Depth-Anything
-Then drop the Simple_Depth_Anything.py into the same directory.
-From there open the Simple_Depth_Anything.py and edit the lines
+To generate a depth map, follow these steps:
 
-cap = cv2.VideoCapture('input.avi')
-frame_rate = 30.000
+1. Download Depth-Anything from here.
+2. Drop the `Simple_Depth_Anything.py` into the same directory.
+3. Open the `Simple_Depth_Anything.py` and edit the lines:
+    ```python
+    cap = cv2.VideoCapture('input.avi')
+    frame_rate = 30.000
+    ```
+   Here, 'input.avi' should be your video file path and `frame_rate` should be its frame rate (like 29.976 for a lot of movies). You can check it with VLC by opening the file, going to tools, and then codec information. On the first run, it will download the model for Depth-Anything.
 
-input.avi should be your video file path
-and frame_rate should be its frame rate like 29.976 for a lot of movies, you can check it with vlc by open the file going to tools and then codec information.
-On first run it will download the model for depth anything.
+This will generate a 2D depth map video for you.
 
-From there it will generate a 2D depth map video for you.
+To run `3D_SBS_CONVERT_LUME.py`, you will need to scroll down in the file and edit the lines:
 
-Now to run 3D_SBS_CONVERT_LUME.py you will need to scroll down in the file and edit the lines 
+```python
+video_2d_path = 'video_2d.avi'
+video_depth_path = 'video_depth.avi'
+output_video_path = 'output_video.avi'
+disparity_scale = 3.0
+frame_rate_var = 29.976
+
+The disparity_scale is the strength of the 3D effect. If it’s too high, it will look like double vision. It’s recommended to test with quick clips and see what you like before doing a full-blown long convert.
+
+The last script is for making lightfield _2x2 videos for Android devices such as the Lume Pad. It requires a depth map and a 2D video source to run. To use the script, it’s the same as lumefield_lightfield.py, but you can specify the number of views.
 
 video_2d_path = 'video_2d.avi'
 video_depth_path = 'video_depth.avi'
@@ -34,24 +47,11 @@ disparity_scale = 3.0
 frame_rate_var = 29.976
 
 
-The lines should be obvious except for maybe disparity_scale that is the strength of the 3d effect too high and it will look like double vision.
-Recommend you test with quick clips and see what you like before doing a full blown long convert.
+Notes
 
-This leaves the last script. It is for making lightfield _2x2 videos for android devices such as the lume pad. It requires a depth map and a 2d video source to run. To use the script is saame as lumefield_lightfield.py but you can specify the number of views.
+Converted videos processed by OpenCV as XVID (the format all the scripts are defaulted to use) may need to be re-encoded by something like FFmpeg to play on all devices like Lume Pad.
+Final Notes
 
+The Simple_Depth_Anything_Depth.py can use CUDA. This will significantly speed up the script, but running Simple_Depth_Anything_Depth.py and 3D_SBS_CONVERT.py on something like a 2-hour movie will take at least a few days to process.
 
-video_2d_path = 'video_2d.avi'
-video_depth_path = 'video_depth.avi'
-output_video_path = 'output_video.avi'
-disparity_scale = 3.0
-frame_rate_var = 29.976
-
-NOTES converted videos processed by opencv as XVID the format I have all the scripts defaulted to use may need reencoded by something like ffmpeg to play on all devices like lume pad.
-
-Final Notes:
-The Simple_Depth_Anything_Depth.py can use cuda this will significantly increase the speed up the script but running Simple_Depth_Anything_Depth.py and 3D_SBS_CONVERT.py on something like a 2 hour movie will take at least a few days to process.
-
-You can improve the Simple_Depth_Anything_Depth.py speed by using something like https://github.com/spacewalk01/depth-anything-tensorrt to leverage tensor cores on rtx gpus to speed up making frames I'm still working on a tweak version of fork of that which is promising but it requires a lot of depenencies for it work right and requires nvidia gpu.
-
-
-
+You can improve the Simple_Depth_Anything_Depth.py speed by using something like Depth-Anything-TensorRT to leverage tensor cores on RTX GPUs to speed up making frames. A tweaked version of this fork is currently being worked on, which is promising, but it requires a lot of dependencies to work right and requires an NVIDIA GPU.
